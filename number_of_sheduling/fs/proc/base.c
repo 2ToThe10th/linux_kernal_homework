@@ -592,6 +592,13 @@ static const struct limit_names lnames[RLIM_NLIMITS] = {
 	[RLIMIT_RTTIME] = {"Max realtime timeout", "us"},
 };
 
+int get_number_of_sheduling(struct seq_file *s, struct pid_namespace *ns,
+		      struct pid *pid, struct task_struct *tsk)
+{
+  seq_printf(s, "number_of_sheduling: %d\n", tsk->number_of_sheduling);
+	return 0;
+}
+
 /* Display limits for a process */
 static int proc_pid_limits(struct seq_file *m, struct pid_namespace *ns,
 			   struct pid *pid, struct task_struct *task)
@@ -3188,6 +3195,7 @@ static const struct pid_entry tgid_base_stuff[] = {
 	ONE("status",     S_IRUGO, proc_pid_status),
 	ONE("personality", S_IRUSR, proc_pid_personality),
 	ONE("limits",	  S_IRUGO, proc_pid_limits),
+	ONE("number_of_sheduling", S_IRUGO, get_number_of_sheduling),
 #ifdef CONFIG_SCHED_DEBUG
 	REG("sched",      S_IRUGO|S_IWUSR, proc_pid_sched_operations),
 #endif
@@ -3533,6 +3541,7 @@ static const struct pid_entry tid_base_stuff[] = {
 	ONE("status",    S_IRUGO, proc_pid_status),
 	ONE("personality", S_IRUSR, proc_pid_personality),
 	ONE("limits",	 S_IRUGO, proc_pid_limits),
+	ONE("number_of_sheduling", S_IRUGO, get_number_of_sheduling),
 #ifdef CONFIG_SCHED_DEBUG
 	REG("sched",     S_IRUGO|S_IWUSR, proc_pid_sched_operations),
 #endif

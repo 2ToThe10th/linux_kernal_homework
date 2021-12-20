@@ -4046,6 +4046,7 @@ try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
 	 * TASK_WAKING such that we can unlock p->pi_lock before doing the
 	 * enqueue, such as ttwu_queue_wakelist().
 	 */
+	p->number_of_sheduling += 1;
 	WRITE_ONCE(p->__state, TASK_WAKING);
 
 	/*
